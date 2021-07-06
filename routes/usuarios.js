@@ -17,6 +17,7 @@ router.get( '/', validarJWT, getUsuarios );
 
 router.post( '/', 
     [
+        validarJWT,
         check('nombre', 'El Nombre es Obligatorio.').not().isEmpty(),
         check('password', 'El Password es Obligatorio.').not().isEmpty(),
         check('email', 'El Email es Obligatorio.').isEmail(),
