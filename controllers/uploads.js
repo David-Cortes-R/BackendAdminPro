@@ -21,7 +21,7 @@ const fileUploads = (req, res = response) => {
     if( !tiposValidos.includes( tipo ) ){
         return res.status(400).json({
             ok: false,
-            msg: 'No es un medico, hospital o usuario (tipo)'
+            msg: 'No es un medicos, hospitales, o usuarios (tipo)'
         });
     }
 
@@ -91,6 +91,7 @@ const retornaImagen = (req, res = response) => {
     const foto = req.params.foto;
 
     const pathImagen = path.join( __dirname, `../uploads/${ tipo }/${ foto }`);
+
 
     if( fs.existsSync( pathImagen ) ){
         res.sendFile( pathImagen );
