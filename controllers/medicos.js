@@ -58,25 +58,88 @@ const crearMedico = async (req, res = response) => {
 //===========================//==================================
 //========          Actualizar Medico      //=====================
 //===========================//==================================
-const actualizarMedico = (req, res = response) =>{
+const actualizarMedico = async (req, res = response) =>{
 
-    res.json({
-        ok: true,
-        msg: 'actualizarMedico'
-    });
-}
+    const id = req.params.id;
+    const uid = req.uid;
+
+
+    try {
+
+            const medicoDB = await Medico.findById( id );
+        
+            if( !medicoDB ){
+                return res.status(404).json({
+                    ok: false,
+                    ms: 'No Existe Un medico con ese ID'
+                });
+            }
+
+            const cambioMedico = {
+                ...req.body,
+                usuario: uid
+            }
+
+            const medicoUpdate =await Medico.findByIdAndUpdate( id, cambioMedico, { new: true } );
+        
+            res.json({
+                ok: true,
+                medico: medicoUpdate
+            });
+
+
+        }catch( err ) {
+
+            console.log( err );
+            res.status(500).json({
+                ok: false,
+                msg: 'Error Inesperado hable con el Administrador'
+            })
+        }
+
+
+
+    }
+
 
 
 
 //===========================//==================================
 //========          Borrar Medico      //=====================
 //===========================//==================================
-const borrarMedico = (req, res = response) => {
+const borrarMedico = async (req, res = response) => {
 
-    res.json({
-        ok: true,
-        msg: 'borrarMedico'
-    });
+    const id = req.params.id;
+
+    try {
+
+        const medico = await Medico.findById( id );
+
+        if( !medico ){
+            return res.status(404).json({
+                ok: false,
+                msg: 'No existe un medico con ese ID'
+            });
+        }
+
+        const medicoDelete = await Medico.findByIdAndDelete( id );
+
+        res.json({
+            ok: true,
+            medicoDelete
+        });
+
+
+    }catch( err ) {
+
+        console.log( err );
+        res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado Hable con el Administrador'
+        });
+    }
+
+    
 }
 
 

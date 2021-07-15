@@ -29,10 +29,18 @@ router.post( '/',
 );
 
 
-router.put( '/:id', actualizarMedico );
+router.put( '/:id',
+    [
+        validarJWT,
+        check('nombre', 'El Nombre es necesario').not().isEmpty(),
+        check('hospital', 'El id del Hopital debe de ser velido').isMongoId(),
+        validarCampos
+    ],
+    actualizarMedico 
+);
 
 
-router.delete( '/:id', borrarMedico );
+router.delete( '/:id', validarJWT, borrarMedico );
 
 
 

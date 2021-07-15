@@ -30,10 +30,17 @@ router.post( '/',
     crearhospital );
 
 
-router.put( '/:id', actualizarhospital );
+router.put( '/:id', 
+    [
+        validarJWT,
+        check('nombre', 'El Nombre es Necesario').not().isEmpty(),
+        validarCampos
+    ],
+    actualizarhospital
+ );
 
 
-router.delete( '/:id', borrarHospital );
+router.delete( '/:id', validarJWT, borrarHospital );
 
 
 
